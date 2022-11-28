@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { query } = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -19,12 +20,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
     try{
         const categoryCollection = client.db('bookshop').collection('category');
+        const allBooksCollection = client.db('bookshop').collection('allbooks');
 
         app.get('/category', async(req, res) =>{
             const query = {};
             const cursor = categoryCollection.find(query);
-            const services = await cursor.toArray();
-            res.send(services);
+            const category = await cursor.toArray();
+            res.send(category);
         });
 
         app.get('/category/:id', async(req, res) => {
@@ -32,7 +34,14 @@ async function run(){
             const query = {_id:ObjectId(id)};
             const category_books = await categoryCollection.findOne(query);
             res.send(category_books);
-        })
+        });
+
+        app.get('/allbooks', async(req, res) =>{
+            const query = {};
+            const cursor = allBooksCollection.find(query);
+            const books = await cursor.toArray();
+            res.send(books);
+        });
     }
     finally{
     }
@@ -43,9 +52,9 @@ run().catch(err => console.error(err));
 
 
 app.get('/', (req, res) =>{
-    res.send('review server is running')
+    res.send('book shop server is running')
 })
 
 app.listen(port, () =>{
-    console.log(`review is running: ${port}`)
+    console.log(`book shop is running: ${port}`)
 })
