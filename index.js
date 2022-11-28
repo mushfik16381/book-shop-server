@@ -29,15 +29,23 @@ async function run(){
             res.send(category);
         });
 
-        app.get('/category/:id', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id:ObjectId(id)};
-            const category_books = await categoryCollection.findOne(query);
-            res.send(category_books);
-        });
+        // app.get('/category/:id', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id:ObjectId(id)};
+        //     const category_books = await categoryCollection.findOne(query);
+        //     res.send(category_books);
+        // });
 
         app.get('/allbooks', async(req, res) =>{
             const query = {};
+            const cursor = allBooksCollection.find(query);
+            const allbooks = await cursor.toArray();
+            res.send(allbooks);
+        });
+
+        app.get('/allbooks/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {category_id: id};
             const cursor = allBooksCollection.find(query);
             const books = await cursor.toArray();
             res.send(books);
