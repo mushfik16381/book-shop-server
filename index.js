@@ -29,13 +29,6 @@ async function run(){
             res.send(category);
         });
 
-        // app.get('/category/:id', async(req, res) => {
-        //     const id = req.params.id;
-        //     const query = {_id:ObjectId(id)};
-        //     const category_books = await categoryCollection.findOne(query);
-        //     res.send(category_books);
-        // });
-
         app.get('/allbooks', async(req, res) =>{
             const query = {};
             const cursor = allBooksCollection.find(query);
