@@ -22,6 +22,7 @@ async function run(){
         const categoryCollection = client.db('bookshop').collection('category');
         const allBooksCollection = client.db('bookshop').collection('allbooks');
         const bookingCollection = client.db('bookshop').collection('booking');
+        const userCollection = client.db('bookshop').collection('user');
 
         app.get('/category', async(req, res) =>{
             const query = {};
@@ -54,6 +55,18 @@ async function run(){
             const book =req.body;
             console.log(book)
             const result = await bookingCollection.insertOne(book)
+            res.send(result)
+        });
+        app.get('/user', async(req, res) =>{
+            const query = {};
+            const cursor = userCollection.find(query);
+            const book = await cursor.toArray();
+            res.send(book);
+        });
+        app.post('/user', async(req, res) => {
+            const book =req.body;
+            console.log(book)
+            const result = await userCollection.insertOne(book)
             res.send(result)
         });
     }
