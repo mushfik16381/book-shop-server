@@ -21,7 +21,7 @@ async function run(){
     try{
         const categoryCollection = client.db('bookshop').collection('category');
         const allBooksCollection = client.db('bookshop').collection('allbooks');
-        const bookingCollection = client.db('bookshop').collection('booking');
+        const bookingCollection = client.db('bookshop').collection('orders');
         const userCollection = client.db('bookshop').collection('user');
 
         app.get('/category', async(req, res) =>{
@@ -45,13 +45,13 @@ async function run(){
             const books = await cursor.toArray();
             res.send(books);
         });
-        app.get('/booking', async(req, res) =>{
+        app.get('/orders', async(req, res) =>{
             const query = {};
             const cursor = bookingCollection.find(query);
             const book = await cursor.toArray();
             res.send(book);
         });
-        app.post('/booking', async(req, res) => {
+        app.post('/orders', async(req, res) => {
             const book =req.body;
             console.log(book)
             const result = await bookingCollection.insertOne(book)
