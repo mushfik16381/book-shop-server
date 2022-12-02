@@ -45,11 +45,24 @@ async function run(){
             const books = await cursor.toArray();
             res.send(books);
         });
+        app.post('/allbooks', async(req, res) => {
+            const book =req.body;
+            console.log(book)
+            const result = await allBooksCollection.insertOne(book)
+            res.send(result)
+        });
         app.get('/orders', async(req, res) =>{
             const query = {};
             const cursor = bookingCollection.find(query);
             const book = await cursor.toArray();
             res.send(book);
+        });
+        app.get('/orders/:email', async(req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email};
+            const cursor = bookingCollection.find(query);
+            const books = await cursor.toArray();
+            res.send(books);
         });
         app.post('/orders', async(req, res) => {
             const book =req.body;
@@ -62,6 +75,13 @@ async function run(){
             const cursor = userCollection.find(query);
             const book = await cursor.toArray();
             res.send(book);
+        });
+        app.get('/user/:email', async(req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email};
+            const cursor = userCollection.find(query);
+            const books = await cursor.toArray();
+            res.send(books);
         });
         app.post('/user', async(req, res) => {
             const book =req.body;
