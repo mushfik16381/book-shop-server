@@ -45,6 +45,13 @@ async function run(){
             const books = await cursor.toArray();
             res.send(books);
         });
+        app.get('/allbook/:email', async(req, res) => {
+            const email = req.params.email;
+            const query = { seller_email: email};
+            const cursor = allBooksCollection.find(query);
+            const books = await cursor.toArray();
+            res.send(books);
+        });
         app.post('/allbooks', async(req, res) => {
             const book =req.body;
             console.log(book)
@@ -75,6 +82,13 @@ async function run(){
             const cursor = userCollection.find(query);
             const book = await cursor.toArray();
             res.send(book);
+        });
+        app.get('/member/:role', async(req, res) => {
+            const role = req.params.role;
+            const query = { roleIndentify: role};
+            const cursor = userCollection.find(query);
+            const books = await cursor.toArray();
+            res.send(books);
         });
         app.get('/user/:email', async(req, res) => {
             const email = req.params.email;
